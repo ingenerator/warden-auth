@@ -1,0 +1,48 @@
+{
+  "name": "ingenerator/warden-auth",
+  "type": "library",
+  "description": "User authorisation layer for warden authentication system",
+  "keywords": [
+    "web",
+    "auth",
+    "acl"
+  ],
+  "homepage": "http://github.com/ingenerator/warden-auth",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Andrew Coulton",
+      "email": "andrew@ingenerator.com",
+      "homepage": "http://ingenerator.com"
+    },
+    {
+      "name": "Craig Gosman",
+      "email": "craig@ingenerator.com",
+      "homepage": "http://ingenerator.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://php-packages.ingenerator.com"
+    }
+  ],
+  "require": {
+    "php": "^5.5||^7.2",
+    "ingenerator/warden-core": "^0.2",
+    "psr/log": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8||^6.5"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Ingenerator\\Warden\\Auth\\": "src/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
+}
