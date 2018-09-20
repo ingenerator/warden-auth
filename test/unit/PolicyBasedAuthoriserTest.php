@@ -29,7 +29,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException \ErrorException
+     * @expectedException \InvalidArgumentException
      */
     public function test_it_throws_if_provided_with_an_invalid_policy_class()
     {

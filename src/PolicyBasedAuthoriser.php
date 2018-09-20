@@ -29,6 +29,9 @@ class PolicyBasedAuthoriser implements Authoriser
         $this->enforcer = array_shift($args);
 
         foreach ($args as $policy) {
+            if ( ! $policy instanceof AccessControlPolicy) {
+                throw new \InvalidArgumentException('Invalid policy class '.get_class($policy));
+            }
             $this->mapPolicyActions($policy);
         }
     }
