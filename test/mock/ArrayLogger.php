@@ -19,7 +19,7 @@ class ArrayLogger extends AbstractLogger
 
     public function assertNothingLogged()
     {
-        \PHPUnit_Framework_Assert::assertEmpty($this->logs);
+        \PHPUnit\Framework\Assert::assertEmpty($this->logs);
     }
 
     public function assertOneLog($level, $message, array $context = [])
