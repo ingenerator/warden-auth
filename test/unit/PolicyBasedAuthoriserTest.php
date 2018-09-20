@@ -13,8 +13,8 @@ use Ingenerator\Warden\Auth\AccessDeniedException;
 use Ingenerator\Warden\Auth\DefaultAccessControlEnforcer;
 use Ingenerator\Warden\Auth\Policy\AbstractAccessPolicy;
 use Ingenerator\Warden\Auth\PolicyBasedAuthoriser;
+use Ingenerator\Warden\Auth\TestSupport\PolicyMocker;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
-use test\mock\Ingenerator\Warden\Auth\Policy;
 
 class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
 {
@@ -43,8 +43,8 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     public function test_it_throws_if_policies_define_non_unique_actions()
     {
         $this->policies = [
-            Policy::stub(FirstPolicy::class)->getPolicy(),
-            Policy::stub(ConflictPolicy::class)->getPolicy(),
+            PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
+            PolicyMocker::stub(ConflictPolicy::class)->getPolicy(),
         ];
         $this->newSubject();
     }
@@ -54,7 +54,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
      */
     public function test_it_throws_if_asked_to_authorise_an_unknown_action()
     {
-        $this->policies = [Policy::stub(FirstPolicy::class)->getPolicy()];
+        $this->policies = [\Ingenerator\Warden\Auth\TestSupport\PolicyMocker::stub(FirstPolicy::class)->getPolicy()];
         $this->newSubject()->decide('do-some-junk');
     }
 
@@ -64,39 +64,39 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
 
         return [
             [
-                [Policy::stub(FirstPolicy::class)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->getPolicy()],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 FALSE,
             ],
             [
-                [Policy::stub(FirstPolicy::class)->allowAny(FirstPolicy::ACTION_FIRST)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allowAny(FirstPolicy::ACTION_FIRST)->getPolicy()],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 TRUE,
             ],
             [
-                [Policy::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 FALSE,
             ],
             [
-                [Policy::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
                 FirstPolicy::ACTION_SECOND,
                 NULL,
                 FALSE,
             ],
             [
-                [Policy::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
                 FirstPolicy::ACTION_SECOND,
                 $res,
                 TRUE,
             ],
             [
                 [
-                    Policy::stub(FirstPolicy::class)->getPolicy(),
-                    Policy::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST)->getPolicy(),
+                    PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
+                    \Ingenerator\Warden\Auth\TestSupport\PolicyMocker::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST)->getPolicy(),
                 ],
                 SecondPolicy::ACTION_FIRST,
                 $res,
