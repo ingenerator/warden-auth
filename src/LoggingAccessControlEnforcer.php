@@ -7,6 +7,7 @@
 namespace Ingenerator\Warden\Auth;
 
 use Ingenerator\Warden\Core\UserSession\UserSession;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -16,15 +17,16 @@ class LoggingAccessControlEnforcer extends DefaultAccessControlEnforcer
 {
 
     /**
-     * @var \Log
+     * @var LoggerInterface
      */
     protected $log;
+
     /**
      * @var UserSession
      */
     protected $user_session;
 
-    public function __construct(\Log $log, UserSession $user_session = NULL)
+    public function __construct(LoggerInterface $log, UserSession $user_session = NULL)
     {
         $this->log          = $log;
         $this->user_session = $user_session;
@@ -61,8 +63,7 @@ class LoggingAccessControlEnforcer extends DefaultAccessControlEnforcer
             $decision->getReasonCode()
         );
 
-        $this->log->add(\Log::WARNING, $entry);
-
+        $this->log->warning($entry);
     }
 
 }

@@ -8,10 +8,14 @@ namespace test\unit\Ingenerator\Warden\Auth;
 
 use Ingenerator\KohanaExtras\Logger\SpyingLoggerStub;
 use Ingenerator\Warden\Auth\AccessControlDecision;
+use Ingenerator\Warden\Auth\AccessControlEnforcer;
 use Ingenerator\Warden\Auth\AccessDeniedException;
 use Ingenerator\Warden\Auth\LoggingAccessControlEnforcer;
 use Ingenerator\Warden\Core\UserSession\SimplePropertyUserSession;
 use Ingenerator\Warden\Core\UserSession\UserSession;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LogLevel;
+use test\mock\Ingenerator\Warden\Auth\ArrayLogger;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
 use test\mock\Ingenerator\Warden\Auth\Entity\UserStub;
 
@@ -20,7 +24,7 @@ class LoggingAccessControlEnforcerTest extends DefaultAccessControlEnforcerTest
 {
 
     /**
-     * @var SpyingLoggerStub
+     * @var ArrayLogger
      */
     protected $log;
 
@@ -32,15 +36,15 @@ class LoggingAccessControlEnforcerTest extends DefaultAccessControlEnforcerTest
     public function setUp()
     {
         parent::setUp();
-        $this->log          = new SpyingLoggerStub;
+        $this->log          = new ArrayLogger;
         $this->user_session = new SimplePropertyUserSession;
     }
 
     public function test_it_is_initialisable()
     {
         $subject = $this->newSubject();
-        $this->assertInstanceOf('Ingenerator\Warden\Auth\LoggingAccessControlEnforcer', $subject);
-        $this->assertInstanceOf('Ingenerator\Warden\Auth\AccessControlEnforcer', $subject);
+        $this->assertInstanceOf(LoggingAccessControlEnforcer::class, $subject);
+        $this->assertInstanceOf(AccessControlEnforcer::class, $subject);
     }
 
     protected function newSubject()
@@ -74,7 +78,7 @@ class LoggingAccessControlEnforcerTest extends DefaultAccessControlEnforcerTest
         $this->user_session->login(UserStub::with(['id' => 12, 'email' => 'someone@bad.net']));
         $this->whenAccessDeniedEnforced(new DummyAccessControlResource, 'any.action', 'any.reason');
         $this->log->assertOneLog(
-            \Log::WARNING,
+            LogLevel::WARNING,
             'Access denied: User someone@bad.net(#12) prevented from any.action on Dummy:resource because any.reason'
         );
     }

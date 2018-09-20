@@ -46,7 +46,7 @@ class PolicyMocker
 
     public function _doDecide(AccessControlResource $resource, $action)
     {
-        $allow = \Arr::get($this->allowed_actions, $action);
+        $allow = isset($this->allowed_actions[$action]) ? $this->allowed_actions[$action] : NULL;
         if ($allow === TRUE) {
             // Allow all
             return AccessControlDecision::allowed($resource, $action);
