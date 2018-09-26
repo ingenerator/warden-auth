@@ -29,7 +29,7 @@
   ],
   "require": {
     "php": "^5.5||^7.2",
-    "ingenerator/warden-core": "^0.2",
+    "ingenerator/warden-core": "^0.2||^0.3",
     "psr/log": "^1.0"
   },
   "require-dev": {
