@@ -1,6 +1,6 @@
 <?php
 # Bootstrap for running unit tests
-error_reporting(E_ALL | E_STRICT);
+\error_reporting(E_ALL | E_STRICT);
 
 // Autoload mocks and test-support helpers that should not autoload in the main app
 $mock_loader = new \Composer\Autoload\ClassLoader;
@@ -12,15 +12,15 @@ $mock_loader->register();
 
 
 // Workaround to allow use with old and new phpunit
-if ( ! class_exists('\PHPUnit\Framework\MockObject\Stub\ReturnCallback')) {
-    class_alias(
+if ( ! \class_exists('\PHPUnit\Framework\MockObject\Stub\ReturnCallback')) {
+    \class_alias(
         'PHPUnit_Framework_MockObject_Stub_ReturnCallback',
         '\PHPUnit\Framework\MockObject\Stub\ReturnCallback'
     );
 }
 
-if ( ! class_exists('\PHPUnit\Framework\MockObject\Generator')) {
-    class_alias(
+if ( ! \class_exists('\PHPUnit\Framework\MockObject\Generator')) {
+    \class_alias(
         'PHPUnit_Framework_MockObject_Generator',
         '\PHPUnit\Framework\MockObject\Generator'
     );

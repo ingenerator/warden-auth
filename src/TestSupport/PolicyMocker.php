@@ -50,7 +50,7 @@ class PolicyMocker
         if ($allow === TRUE) {
             // Allow all
             return AccessControlDecision::allowed($resource, $action);
-        } elseif (is_array($allow) AND in_array($resource, $allow, TRUE)) {
+        } elseif (\is_array($allow) AND \in_array($resource, $allow, TRUE)) {
             // Allow specific resource
             return AccessControlDecision::allowed($resource, $action);
         } else {

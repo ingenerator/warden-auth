@@ -160,7 +160,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     {
         $refl = new \ReflectionClass(PolicyBasedAuthoriser::class);
 
-        return $refl->newInstanceArgs(array_merge([$this->enforcer], $this->policies));
+        return $refl->newInstanceArgs(\array_merge([$this->enforcer], $this->policies));
     }
 }
 

@@ -38,13 +38,13 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
     public function decide(AccessControlResource $resource, $action)
     {
         if ( ! $this->supportsResource($resource, $action)) {
-            $res_class = get_class($resource);
+            $res_class = \get_class($resource);
             throw new \InvalidArgumentException(
                 $res_class.' is not a valid resource type for '.$action.' on '.static::class
             );
         }
 
-        if ( ! in_array($action, static::listActions())) {
+        if ( ! \in_array($action, static::listActions())) {
             throw new \InvalidArgumentException(
                 $action.' is not a valid action for '.static::class
             );
@@ -76,8 +76,8 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
         if ( ! $actions) {
             $reflection = new \ReflectionClass(static::class);
             foreach ($reflection->getConstants() as $name => $constant) {
-                if (strncmp($name, 'ACTION_', 7) === 0) {
-                    $actions[substr($name, 7)] = $constant;
+                if (\strncmp($name, 'ACTION_', 7) === 0) {
+                    $actions[\substr($name, 7)] = $constant;
                 }
             }
         }
@@ -95,11 +95,11 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
      */
     protected function doDecide(AccessControlResource $resource, $action)
     {
-        $action_key = array_flip(static::listActions())[$action];
-        $method     = 'can'.str_replace('_', '', $action_key);
+        $action_key = \array_flip(static::listActions())[$action];
+        $method     = 'can'.\str_replace('_', '', $action_key);
         $decision   = $this->$method($resource);
 
-        if ( ! is_string($decision)) {
+        if ( ! \is_string($decision)) {
             throw new \UnexpectedValueException(
                 static::class.'::'.$method.' must return a string decision'
             );

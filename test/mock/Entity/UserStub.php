@@ -16,7 +16,7 @@ class UserStub extends SimpleUser
     {
         static $user_id = 1;
 
-        $values = array_merge(
+        $values = \array_merge(
             [
                 'id'    => $user_id++,
                 'email' => '',
