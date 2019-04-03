@@ -13,12 +13,12 @@
     {
       "name": "Andrew Coulton",
       "email": "andrew@ingenerator.com",
-      "homepage": "http://ingenerator.com"
+      "homepage": "https://ingenerator.com"
     },
     {
       "name": "Craig Gosman",
       "email": "craig@ingenerator.com",
-      "homepage": "http://ingenerator.com"
+      "homepage": "https://ingenerator.com"
     }
   ],
   "repositories": [
@@ -28,12 +28,12 @@
     }
   ],
   "require": {
-    "php": "^5.5||^7.2",
-    "ingenerator/warden-core": "^0.2||^0.3",
+    "php": "^7.2",
+    "ingenerator/warden-core": "^1.0",
     "psr/log": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.8||^6.5"
+    "phpunit/phpunit": "^7.0"
   },
   "suggest": {
   },
