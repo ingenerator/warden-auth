@@ -54,7 +54,7 @@ class LoggingAccessControlEnforcer extends DefaultAccessControlEnforcer
             return;
         }
 
-        $entry = sprintf(
+        $entry = \sprintf(
             'Access denied: User %s(#%s) prevented from %s on %s because %s',
             $this->user_session->getUser()->getEmail(),
             $this->user_session->getUser()->getId(),

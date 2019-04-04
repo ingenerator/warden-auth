@@ -25,12 +25,12 @@ class PolicyBasedAuthoriser implements Authoriser
      */
     public function __construct(AccessControlEnforcer $enforcer)
     {
-        $args           = func_get_args();
-        $this->enforcer = array_shift($args);
+        $args           = \func_get_args();
+        $this->enforcer = \array_shift($args);
 
         foreach ($args as $policy) {
             if ( ! $policy instanceof AccessControlPolicy) {
-                throw new \InvalidArgumentException('Invalid policy class '.get_class($policy));
+                throw new \InvalidArgumentException('Invalid policy class '.\get_class($policy));
             }
             $this->mapPolicyActions($policy);
         }
@@ -38,11 +38,11 @@ class PolicyBasedAuthoriser implements Authoriser
 
     protected function mapPolicyActions(AccessControlPolicy $policy)
     {
-        $actions = call_user_func([get_class($policy), 'listActions']);
+        $actions = \call_user_func([\get_class($policy), 'listActions']);
         foreach ($actions as $action) {
             if (isset($this->policy_map[$action])) {
                 throw new \DomainException(
-                    'Duplicate action '.$action.' defined by '.get_class($policy).' and '.get_class(
+                    'Duplicate action '.$action.' defined by '.\get_class($policy).' and '.\get_class(
                         $this->policy_map[$action]
                     )
                 );

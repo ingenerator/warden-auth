@@ -15,9 +15,9 @@ class AccessControlDecisionTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_can_be_created_as_a_denied_decision()
     {
-        $action   = uniqid();
+        $action   = \uniqid();
         $resource = new DummyAccessControlResource;
-        $reason   = uniqid();
+        $reason   = \uniqid();
         $decision = AccessControlDecision::denied($resource, $action, $reason);
         $this->assertFalse($decision->isAllowed());
         $this->assertSame($resource, $decision->getResource());
@@ -27,7 +27,7 @@ class AccessControlDecisionTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_can_be_created_as_an_allowed_decision()
     {
-        $action   = uniqid();
+        $action   = \uniqid();
         $resource = new DummyAccessControlResource;
         $decision = AccessControlDecision::allowed($resource, $action);
         $this->assertTrue($decision->isAllowed());
