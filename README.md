@@ -2,9 +2,6 @@ This library provides a simple policy-based authorisation layer for [ingenerator
 
 **Warden is under heavy development and not recommended for production use outwith inGenerator.**
 
-[![Build Status](https://travis-ci.org/ingenerator/warden-auth.svg?branch=0.1.x)](https://travis-ci.org/ingenerator/warden-auth)
-
-
 # Installing warden-auth
 
 This isn't in packagist yet : you'll need to add our package repository to your composer.json:
