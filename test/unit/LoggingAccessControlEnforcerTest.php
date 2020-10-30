@@ -13,7 +13,6 @@ use Ingenerator\Warden\Auth\AccessDeniedException;
 use Ingenerator\Warden\Auth\LoggingAccessControlEnforcer;
 use Ingenerator\Warden\Core\UserSession\SimplePropertyUserSession;
 use Ingenerator\Warden\Core\UserSession\UserSession;
-use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use test\mock\Ingenerator\Warden\Auth\ArrayLogger;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
@@ -33,7 +32,7 @@ class LoggingAccessControlEnforcerTest extends DefaultAccessControlEnforcerTest
      */
     protected $user_session;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->log          = new ArrayLogger;

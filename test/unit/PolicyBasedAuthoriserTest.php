@@ -7,6 +7,7 @@
 namespace test\unit\Ingenerator\Warden\Auth;
 
 
+use DomainException;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessControlResource;
 use Ingenerator\Warden\Auth\AccessDeniedException;
@@ -14,6 +15,8 @@ use Ingenerator\Warden\Auth\DefaultAccessControlEnforcer;
 use Ingenerator\Warden\Auth\Policy\AbstractAccessPolicy;
 use Ingenerator\Warden\Auth\PolicyBasedAuthoriser;
 use Ingenerator\Warden\Auth\TestSupport\PolicyMocker;
+use InvalidArgumentException;
+use OutOfBoundsException;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
 
 class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
@@ -28,33 +31,27 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(PolicyBasedAuthoriser::class, $this->newSubject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_it_throws_if_provided_with_an_invalid_policy_class()
     {
         $this->policies = [new \stdClass];
+        $this->expectException(InvalidArgumentException::class);
         $this->newSubject();
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function test_it_throws_if_policies_define_non_unique_actions()
     {
         $this->policies = [
             PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
             PolicyMocker::stub(ConflictPolicy::class)->getPolicy(),
         ];
+        $this->expectException(DomainException::class);
         $this->newSubject();
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     */
     public function test_it_throws_if_asked_to_authorise_an_unknown_action()
     {
-        $this->policies = [\Ingenerator\Warden\Auth\TestSupport\PolicyMocker::stub(FirstPolicy::class)->getPolicy()];
+        $this->policies = [PolicyMocker::stub(FirstPolicy::class)->getPolicy()];
+        $this->expectException(OutOfBoundsException::class);
         $this->newSubject()->decide('do-some-junk');
     }
 
@@ -96,7 +93,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
-                    \Ingenerator\Warden\Auth\TestSupport\PolicyMocker::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST)->getPolicy(),
+                    PolicyMocker::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST)->getPolicy(),
                 ],
                 SecondPolicy::ACTION_FIRST,
                 $res,
@@ -147,7 +144,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->enforcer = new DefaultAccessControlEnforcer;

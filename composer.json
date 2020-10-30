@@ -28,12 +28,12 @@
     }
   ],
   "require": {
-    "php": "^7.2",
-    "ingenerator/warden-core": "^1.0",
+    "php": "^7.4",
+    "ingenerator/warden-core": "^1.1",
     "psr/log": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.0"
+    "phpunit/phpunit": "^9.0"
   },
   "suggest": {
   },
