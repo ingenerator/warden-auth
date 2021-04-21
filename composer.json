@@ -28,7 +28,7 @@
     }
   ],
   "require": {
-    "php": "^7.4",
+    "php": "^7.4 || ~8.0.0",
     "ingenerator/warden-core": "^1.1",
     "psr/log": "^1.0"
   },
