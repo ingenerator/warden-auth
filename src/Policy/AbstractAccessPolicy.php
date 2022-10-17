@@ -73,12 +73,10 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
     {
         static $actions = [];
 
-        if ( ! $actions) {
-            $reflection = new \ReflectionClass(static::class);
-            foreach ($reflection->getConstants() as $name => $constant) {
-                if (\strncmp($name, 'ACTION_', 7) === 0) {
-                    $actions[\substr($name, 7)] = $constant;
-                }
+        $reflection = new \ReflectionClass(static::class);
+        foreach ($reflection->getConstants() as $name => $constant) {
+            if (\strncmp($name, 'ACTION_', 7) === 0) {
+                $actions[\substr($name, 7)] = $constant;
             }
         }
 
