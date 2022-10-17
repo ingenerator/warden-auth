@@ -45,6 +45,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
             PolicyMocker::stub(ConflictPolicy::class)->getPolicy(),
         ];
         $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Duplicate action');
         $this->newSubject();
     }
 

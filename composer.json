@@ -7,7 +7,7 @@
     "auth",
     "acl"
   ],
-  "homepage": "http://github.com/ingenerator/warden-auth",
+  "homepage": "https://github.com/ingenerator/warden-auth",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -28,12 +28,12 @@
     }
   ],
   "require": {
-    "php": "^7.4 || ~8.0.0",
-    "ingenerator/warden-core": "^1.1",
+    "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+    "ingenerator/warden-core": "^1.2",
     "psr/log": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.0"
+    "phpunit/phpunit": "^9.5.5"
   },
   "suggest": {
   },
