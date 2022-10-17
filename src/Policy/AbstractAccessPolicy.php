@@ -71,7 +71,7 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
      */
     public static function listActions()
     {
-        static $actions = [];
+        $actions = [];
 
         $reflection = new \ReflectionClass(static::class);
         foreach ($reflection->getConstants() as $name => $constant) {
