@@ -1,5 +1,10 @@
 ### Unreleased
 
+### v1.3.0 (2024-02-08)
+
+* Drop support for PHP 8.0 and 8.1
+* Support PSR log v2 and v3
+
 ### v1.2.0 (2022-10-17)
 
 * Support PHP 8.1 and PHP 8.2
