@@ -30,7 +30,7 @@
   "require": {
     "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
     "ingenerator/warden-core": "^1.2",
-    "psr/log": "^1.0"
+    "psr/log": "^1.0 || ^2.0 || ^3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.5"
