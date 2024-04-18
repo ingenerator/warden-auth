@@ -35,7 +35,7 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
      * @return AccessControlDecision
      * @throws \InvalidArgumentException if a resource or action type is invalid
      */
-    public function decide(AccessControlResource $resource, $action)
+    public function decide(AccessControlResource $resource, string $action)
     {
         if ( ! $this->supportsResource($resource, $action)) {
             $res_class = \get_class($resource);
@@ -61,7 +61,7 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
      *
      * @return bool
      */
-    abstract protected function supportsResource(AccessControlResource $resource, $action);
+    abstract protected function supportsResource(AccessControlResource $resource, string $action);
 
     /**
      * List all available actions for this policy, using the `ACTION_XXX` constants defined on the
@@ -91,7 +91,7 @@ abstract class AbstractAccessPolicy implements AccessControlPolicy
      *
      * @return AccessControlDecision
      */
-    protected function doDecide(AccessControlResource $resource, $action)
+    protected function doDecide(AccessControlResource $resource, string $action)
     {
         $action_key = \array_flip(static::listActions())[$action];
         $method     = 'can'.\str_replace('_', '', $action_key);

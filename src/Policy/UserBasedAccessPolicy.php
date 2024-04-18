@@ -48,7 +48,7 @@ abstract class UserBasedAccessPolicy extends AbstractAccessPolicy
      *
      * @return AccessControlDecision
      */
-    protected function doDecide(AccessControlResource $resource, $action)
+    protected function doDecide(AccessControlResource $resource, string $action)
     {
         if ( ! $this->user_session->isAuthenticated()) {
             return AccessControlDecision::denied(

@@ -32,5 +32,5 @@ interface AccessControlPolicy
      *
      * @return AccessControlDecision
      */
-    public function decide(AccessControlResource $resource, $action);
+    public function decide(AccessControlResource $resource, string $action);
 }

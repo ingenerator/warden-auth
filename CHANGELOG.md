@@ -1,5 +1,9 @@
 ### Unreleased
 
+* Add parameter typehints where they meet BC
+  To start moving towards strict typing of the interfaces, without
+  breaking existing implementations.
+
 ### v1.3.0 (2024-02-08)
 
 * Drop support for PHP 8.0 and 8.1
