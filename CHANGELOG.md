@@ -1,5 +1,7 @@
 ### Unreleased
 
+### v1.4.0 (2024-04-18)
+
 * Add ArrayAuthoriserMock for mocking authorisation decisions in tests.
 * Add parameter typehints where they meet BC
   To start moving towards strict typing of the interfaces, without
