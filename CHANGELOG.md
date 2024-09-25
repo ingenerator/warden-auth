@@ -1,5 +1,10 @@
 ### Unreleased
 
+### v1.5.0 (2024-09-25)
+
+* Support PHP 8.3
+* Support warden-core ^2.0
+
 ### v1.4.0 (2024-04-18)
 
 * Add ArrayAuthoriserMock for mocking authorisation decisions in tests.
