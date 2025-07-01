@@ -17,9 +17,12 @@ use Ingenerator\Warden\Auth\PolicyBasedAuthoriser;
 use Ingenerator\Warden\Auth\TestSupport\PolicyMocker;
 use InvalidArgumentException;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
+use function array_map;
 
-class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
+class PolicyBasedAuthoriserTest extends TestCase
 {
 
     protected $enforcer;
@@ -41,8 +44,8 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     public function test_it_throws_if_policies_define_non_unique_actions()
     {
         $this->policies = [
-            PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
-            PolicyMocker::stub(ConflictPolicy::class)->getPolicy(),
+            PolicyMocker::stub(FirstPolicy::class)->getPolicy($this),
+            PolicyMocker::stub(ConflictPolicy::class)->getPolicy($this),
         ];
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Duplicate action');
@@ -51,50 +54,50 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_throws_if_asked_to_authorise_an_unknown_action()
     {
-        $this->policies = [PolicyMocker::stub(FirstPolicy::class)->getPolicy()];
+        $this->policies = [PolicyMocker::stub(FirstPolicy::class)->getPolicy($this)];
         $this->expectException(OutOfBoundsException::class);
         $this->newSubject()->decide('do-some-junk');
     }
 
-    public function provider_expected_decisions()
+    public static function provider_expected_decisions(): array
     {
         $res = new DummyAccessControlResource;
 
         return [
             [
-                [PolicyMocker::stub(FirstPolicy::class)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 FALSE,
             ],
             [
-                [PolicyMocker::stub(FirstPolicy::class)->allowAny(FirstPolicy::ACTION_FIRST)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allowAny(FirstPolicy::ACTION_FIRST)],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 TRUE,
             ],
             [
-                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)],
                 FirstPolicy::ACTION_FIRST,
                 NULL,
                 FALSE,
             ],
             [
-                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)],
                 FirstPolicy::ACTION_SECOND,
                 NULL,
                 FALSE,
             ],
             [
-                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)->getPolicy()],
+                [PolicyMocker::stub(FirstPolicy::class)->allow($res, FirstPolicy::ACTION_SECOND)],
                 FirstPolicy::ACTION_SECOND,
                 $res,
                 TRUE,
             ],
             [
                 [
-                    PolicyMocker::stub(FirstPolicy::class)->getPolicy(),
-                    PolicyMocker::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST)->getPolicy(),
+                    PolicyMocker::stub(FirstPolicy::class),
+                    PolicyMocker::stub(SecondPolicy::class)->allow($res, SecondPolicy::ACTION_FIRST),
                 ],
                 SecondPolicy::ACTION_FIRST,
                 $res,
@@ -103,34 +106,28 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_returns_decision_for_decide_action($policies, $action, $resource, $expect_ok)
     {
-        $this->policies = $policies;
+        $this->policies = array_map(fn(PolicyMocker $m) => $m->getPolicy($this),$policies);
         $decision       = $this->newSubject()->decide($action, $resource);
         $this->assertInstanceOf(AccessControlDecision::class, $decision);
         $this->assertSame($expect_ok, $decision->isAllowed());
     }
 
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_returns_boolean_for_can_action($policies, $action, $resource, $expect_ok)
     {
-        $this->policies = $policies;
+        $this->policies = array_map(fn(PolicyMocker $m) => $m->getPolicy($this),$policies);
         $this->assertSame($expect_ok, $this->newSubject()->can($action, $resource));
     }
 
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_enforces_decisions_with_enforcer($policies, $action, $resource, $expect_ok)
     {
-        $this->policies = $policies;
+        $this->policies = array_map(fn(PolicyMocker $m) => $m->getPolicy($this),$policies);
         try {
             $this->newSubject()->enforce($action, $resource);
             $denied_exception = NULL;
