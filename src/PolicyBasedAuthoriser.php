@@ -54,7 +54,7 @@ class PolicyBasedAuthoriser implements Authoriser
     /**
      * {@inheritdoc}
      */
-    public function can($action, AccessControlResource $resource = NULL)
+    public function can($action, ?AccessControlResource $resource = NULL)
     {
         return $this->decide($action, $resource)->isAllowed();
     }
@@ -62,7 +62,7 @@ class PolicyBasedAuthoriser implements Authoriser
     /**
      * {@inheritdoc}
      */
-    public function decide($action, AccessControlResource $resource = NULL)
+    public function decide($action, ?AccessControlResource $resource = NULL)
     {
         if ( ! isset($this->policy_map[$action])) {
             throw new \OutOfBoundsException('Unknown access control action `'.$action.'`');
@@ -74,7 +74,7 @@ class PolicyBasedAuthoriser implements Authoriser
     /**
      * {@inheritdoc}
      */
-    public function enforce($action, AccessControlResource $resource = NULL)
+    public function enforce($action, ?AccessControlResource $resource = NULL)
     {
         $this->enforcer->enforce($this->decide($action, $resource));
     }

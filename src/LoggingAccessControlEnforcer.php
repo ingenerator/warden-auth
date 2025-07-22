@@ -26,7 +26,7 @@ class LoggingAccessControlEnforcer extends DefaultAccessControlEnforcer
      */
     protected $user_session;
 
-    public function __construct(LoggerInterface $log, UserSession $user_session = NULL)
+    public function __construct(LoggerInterface $log, ?UserSession $user_session = NULL)
     {
         $this->log          = $log;
         $this->user_session = $user_session;

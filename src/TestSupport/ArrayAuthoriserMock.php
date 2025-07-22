@@ -81,12 +81,12 @@ class ArrayAuthoriserMock implements Authoriser
         return self::willDecideOnly([$action => [[$resource, $result]]]);
     }
 
-    public function can(string $action, AccessControlResource $resource = NULL): bool
+    public function can(string $action, ?AccessControlResource $resource = NULL): bool
     {
         return $this->decide($action, $resource)->isAllowed();
     }
 
-    public function decide(string $action, AccessControlResource $resource = NULL): AccessControlDecision
+    public function decide(string $action, ?AccessControlResource $resource = NULL): AccessControlDecision
     {
         $reason   = $this->findDecisionReasonFor($action, $resource);
         $resource ??= new NullAccessControlResource;
