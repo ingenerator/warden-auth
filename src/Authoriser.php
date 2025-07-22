@@ -14,7 +14,7 @@ interface Authoriser
      *
      * @return boolean
      */
-    public function can(string $action, AccessControlResource $resource = NULL);
+    public function can(string $action, ?AccessControlResource $resource = NULL);
 
     /**
      * @param string                     $action
@@ -22,7 +22,7 @@ interface Authoriser
      *
      * @return AccessControlDecision
      */
-    public function decide(string $action, AccessControlResource $resource = NULL);
+    public function decide(string $action, ?AccessControlResource $resource = NULL);
 
     /**
      * @param string                     $action
@@ -31,6 +31,6 @@ interface Authoriser
      * @return void
      * @throws AccessDeniedException
      */
-    public function enforce(string $action, AccessControlResource $resource = NULL);
+    public function enforce(string $action, ?AccessControlResource $resource = NULL);
 
 }

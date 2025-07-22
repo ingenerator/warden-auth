@@ -27,14 +27,14 @@ abstract class UserBasedAccessPolicy extends AbstractAccessPolicy
      */
     protected $user;
     /**
-     * @var UserSession
+     * @var UserSession|null
      */
     protected $user_session;
 
     /**
      * @param UserSession $user_session
      */
-    public function __construct(UserSession $user_session = NULL)
+    public function __construct(?UserSession $user_session = NULL)
     {
         $this->user_session = $user_session;
     }
