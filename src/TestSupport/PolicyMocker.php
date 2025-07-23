@@ -9,6 +9,8 @@ namespace Ingenerator\Warden\Auth\TestSupport;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessControlPolicy;
 use Ingenerator\Warden\Auth\AccessControlResource;
+use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Mock any access control policy for use in unit tests. By default denies everything unless allowed
@@ -50,7 +52,7 @@ class PolicyMocker
         if ($allow === TRUE) {
             // Allow all
             return AccessControlDecision::allowed($resource, $action);
-        } elseif (\is_array($allow) AND \in_array($resource, $allow, TRUE)) {
+        } elseif (\is_array($allow) and \in_array($resource, $allow, TRUE)) {
             // Allow specific resource
             return AccessControlDecision::allowed($resource, $action);
         } else {
@@ -83,10 +85,13 @@ class PolicyMocker
     /**
      * @return AccessControlPolicy
      */
-    public function getPolicy()
+    public function getPolicy(TestCase $test_case)
     {
-        $builder = new \PHPUnit\Framework\MockObject\Generator();
-        $mock    = $builder->getMock($this->class, ['doDecide'], [], '', FALSE, TRUE, TRUE, FALSE);
+        $builder = (new MockBuilder($test_case, $this->class))
+            ->disableOriginalConstructor()
+            ->enableOriginalClone()
+            ->onlyMethods(['doDecide']);
+        $mock    = $builder->getMock();
         $mock->method('doDecide')->will(
             new \PHPUnit\Framework\MockObject\Stub\ReturnCallback([$this, '_doDecide'])
         );
