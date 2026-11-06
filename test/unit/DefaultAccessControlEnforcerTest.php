@@ -6,12 +6,13 @@
 
 namespace test\unit\Ingenerator\Warden\Auth;
 
+use PHPUnit\Framework\TestCase;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessDeniedException;
 use Ingenerator\Warden\Auth\DefaultAccessControlEnforcer;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
 
-class DefaultAccessControlEnforcerTest extends \PHPUnit\Framework\TestCase
+class DefaultAccessControlEnforcerTest extends TestCase
 {
 
     public function test_it_does_nothing_when_decision_is_allowed()

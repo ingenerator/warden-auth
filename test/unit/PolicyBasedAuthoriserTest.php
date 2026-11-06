@@ -7,6 +7,10 @@
 namespace test\unit\Ingenerator\Warden\Auth;
 
 
+use PHPUnit\Framework\TestCase;
+use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use ReflectionClass;
 use DomainException;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessControlResource;
@@ -19,7 +23,7 @@ use InvalidArgumentException;
 use OutOfBoundsException;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
 
-class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
+class PolicyBasedAuthoriserTest extends TestCase
 {
 
     protected $enforcer;
@@ -33,7 +37,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_throws_if_provided_with_an_invalid_policy_class()
     {
-        $this->policies = [new \stdClass];
+        $this->policies = [new stdClass];
         $this->expectException(InvalidArgumentException::class);
         $this->newSubject();
     }
@@ -45,7 +49,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
             PolicyMocker::stub(ConflictPolicy::class)->getPolicy(),
         ];
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Duplicate action');
+        $this->expectExceptionMessageIsOrContains('Duplicate action');
         $this->newSubject();
     }
 
@@ -56,7 +60,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
         $this->newSubject()->decide('do-some-junk');
     }
 
-    public function provider_expected_decisions()
+    public static function provider_expected_decisions()
     {
         $res = new DummyAccessControlResource;
 
@@ -103,9 +107,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_returns_decision_for_decide_action($policies, $action, $resource, $expect_ok)
     {
         $this->policies = $policies;
@@ -115,9 +117,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_returns_boolean_for_can_action($policies, $action, $resource, $expect_ok)
     {
         $this->policies = $policies;
@@ -125,9 +125,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @dataProvider provider_expected_decisions
-     */
+    #[DataProvider('provider_expected_decisions')]
     public function test_it_enforces_decisions_with_enforcer($policies, $action, $resource, $expect_ok)
     {
         $this->policies = $policies;
@@ -156,7 +154,7 @@ class PolicyBasedAuthoriserTest extends \PHPUnit\Framework\TestCase
      */
     protected function newSubject()
     {
-        $refl = new \ReflectionClass(PolicyBasedAuthoriser::class);
+        $refl = new ReflectionClass(PolicyBasedAuthoriser::class);
 
         return $refl->newInstanceArgs(\array_merge([$this->enforcer], $this->policies));
     }
