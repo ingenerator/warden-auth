@@ -6,6 +6,7 @@
 
 namespace test\mock\Ingenerator\Warden\Auth;
 
+use PHPUnit\Framework\Assert;
 use Psr\Log\AbstractLogger;
 
 class ArrayLogger extends AbstractLogger
@@ -19,12 +20,12 @@ class ArrayLogger extends AbstractLogger
 
     public function assertNothingLogged()
     {
-        \PHPUnit\Framework\Assert::assertEmpty($this->logs);
+        Assert::assertEmpty($this->logs);
     }
 
     public function assertOneLog($level, $message, array $context = [])
     {
-        \PHPUnit\Framework\Assert::assertSame(
+        Assert::assertSame(
             [
                 [$level, $message, $context],
             ],

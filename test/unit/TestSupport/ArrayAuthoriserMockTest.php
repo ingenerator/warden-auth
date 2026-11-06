@@ -2,6 +2,8 @@
 
 namespace test\unit\Ingenerator\Warden\Auth\TestSupport;
 
+use OutOfRangeException;
+use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessControlResource;
 use Ingenerator\Warden\Auth\AccessDeniedException;
 use Ingenerator\Warden\Auth\NullAccessControlResource;
@@ -108,7 +110,7 @@ class ArrayAuthoriserMockTest extends TestCase
         $this->assertAllows($subject, 'delete', $safe_resource_1);
         $this->assertDenies($subject, 'delete', $locked_resource, 'locked');
 
-        $this->expectException(\OutOfRangeException::class);
+        $this->expectException(OutOfRangeException::class);
         $subject->decide('anything', $safe_resource_1);
     }
 
@@ -122,7 +124,7 @@ class ArrayAuthoriserMockTest extends TestCase
         // NB can do the expected decisions any number of times
         $this->assertDenies($subject, 'delete', $locked_resource, 'not-allowed');
 
-        $this->expectException(\OutOfRangeException::class);
+        $this->expectException(OutOfRangeException::class);
         $subject->decide('anything', new DummyAccessControlResource());
     }
 
@@ -173,7 +175,7 @@ class ArrayAuthoriserMockTest extends TestCase
         ?string                                        $reason,
         string                                         $action,
         ?DummyAccessControlResource                    $resource,
-        \Ingenerator\Warden\Auth\AccessControlDecision $decision,
+        AccessControlDecision $decision,
     ): void {
         $this->assertSame(
             [
