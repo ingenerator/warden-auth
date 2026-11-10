@@ -7,10 +7,12 @@
 namespace test\unit\Ingenerator\Warden\Auth;
 
 
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use test\mock\Ingenerator\Warden\Auth\DummyAccessControlResource;
 
-class AccessControlDecisionTest extends \PHPUnit\Framework\TestCase
+class AccessControlDecisionTest extends TestCase
 {
 
     public function test_it_can_be_created_as_a_denied_decision()
@@ -38,7 +40,7 @@ class AccessControlDecisionTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_cannot_be_directly_created()
     {
-        $reflection  = new \ReflectionClass('Ingenerator\Warden\Auth\AccessControlDecision');
+        $reflection  = new ReflectionClass('Ingenerator\Warden\Auth\AccessControlDecision');
         $constructor = $reflection->getMethod('__construct');
         $this->assertTrue($constructor->isProtected());
     }

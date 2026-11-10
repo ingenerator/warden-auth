@@ -6,7 +6,6 @@
 
 namespace test\unit\Ingenerator\Warden\Auth;
 
-use Ingenerator\KohanaExtras\Logger\SpyingLoggerStub;
 use Ingenerator\Warden\Auth\AccessControlDecision;
 use Ingenerator\Warden\Auth\AccessControlEnforcer;
 use Ingenerator\Warden\Auth\AccessDeniedException;
